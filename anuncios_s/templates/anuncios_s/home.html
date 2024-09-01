@@ -1,0 +1,32 @@
+{% load static %}
+
+
+
+{% block title %}Home - Loque{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Anúncios Disponíveis</h2>
+<div class="row">
+    {% for anuncio in anuncios %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            {% if anuncio.fotos %}
+            <img src="{{ anuncio.fotos.url }}" class="card-img-top" alt="Foto de {{ anuncio.local }}">
+            {% else %}
+            <img src="{% static 'default_image.jpg' %}" class="card-img-top" alt="Sem foto">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ anuncio.local }}</h5>
+                <p class="card-text"><strong>Preço:</strong> R$ {{ anuncio.preco }}</p>
+                <p class="card-text"><strong>Tipo de Contrato:</strong> {{ anuncio.get_tipo_contrato_display }}</p>
+                <p class="card-text">{{ anuncio.descricao|truncatechars:100 }}</p>
+                <a href="{% url 'editar_anuncio' anuncio.pk %}" class="btn btn-primary">Editar</a>
+                <a href="{% url 'deletar_anuncio' anuncio.pk %}" class="btn btn-danger">Deletar</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Nenhum anúncio disponível no momento.</p>
+    {% endfor %}
+</div>
+{% endblock %}
