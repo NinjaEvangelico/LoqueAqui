@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'anuncios_s',
     'crispy_forms',
     'crispy_bootstrap5',
+    'allauth',
+    'allauth.account',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -55,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'Loque.urls'
@@ -74,7 +78,14 @@ TEMPLATES = [
         },
     },
 ]
-
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    
 WSGI_APPLICATION = 'Loque.wsgi.application'
 
 
@@ -125,7 +136,22 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
+# Diretórios adicionais para procurar arquivos estáticos
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+# Diretório onde os arquivos estáticos serão coletados para produção
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = ' /accounts/login/'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Ou 'mandatory', dependendo da sua configuração
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

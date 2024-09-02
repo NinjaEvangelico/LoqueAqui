@@ -24,6 +24,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('anuncios_s.urls')),  # Inclui as URLs do app anúncios_s
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:

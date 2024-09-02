@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Anuncio(models.Model):
     TIPO_CONTRATO_CHOICES = [
@@ -13,6 +14,7 @@ class Anuncio(models.Model):
     tipo_contrato = models.CharField(max_length=10, choices=TIPO_CONTRATO_CHOICES)
     descricao = models.TextField()
     fotos = models.ImageField(upload_to='anuncios/', blank=True, null=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     data_criacao = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
